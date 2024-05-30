@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Container, VStack, Heading, FormControl, FormLabel, Input, Button, Select, Box, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const FlightSearch = () => {
   const [departure, setDeparture] = useState("");
@@ -8,6 +9,7 @@ const FlightSearch = () => {
   const [returnDate, setReturnDate] = useState("");
   const [passengers, setPassengers] = useState(1);
   const [results, setResults] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     // Mock search results
@@ -16,6 +18,10 @@ const FlightSearch = () => {
       { id: 2, flight: "Flight 202", from: departure, to: arrival, date: departureDate, price: "$250" },
     ];
     setResults(mockResults);
+  };
+
+  const handleSelectFlight = (result) => {
+    navigate("/booking-confirmation", { state: result });
   };
 
   return (
@@ -61,6 +67,9 @@ const FlightSearch = () => {
                   <Text>To: {result.to}</Text>
                   <Text>Date: {result.date}</Text>
                   <Text>Price: {result.price}</Text>
+                  <Button colorScheme="teal" size="sm" mt={2} onClick={() => handleSelectFlight(result)}>
+                    Select Flight
+                  </Button>
                 </Box>
               ))}
             </VStack>
